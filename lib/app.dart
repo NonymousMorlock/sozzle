@@ -16,6 +16,7 @@ import 'package:sozzle/src/settings/cubit/setting_cubit.dart';
 import 'package:sozzle/src/settings/domain/i_setting_repository.dart';
 import 'package:sozzle/src/theme/cubit/theme_cubit.dart';
 import 'package:sozzle/src/user_stats/user_stats.dart';
+import 'package:game_core/game_core.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -26,6 +27,14 @@ class App extends StatelessWidget {
       providers: [
         RepositoryProvider<ILevelRepository>(
           create: (context) => LevelRepository(),
+        ),
+        // Provide a GameCore implementation for app-wide game state management
+        RepositoryProvider<GameCore>(
+          create: (context) => SimpleGameCore(
+            repository: InMemoryRepository({
+              // Optionally seed levels from app's level repository or assets
+            }),
+          ),
         ),
         RepositoryProvider<IUserStatsRepository>(
           create: (context) => UserStatsRepository(),

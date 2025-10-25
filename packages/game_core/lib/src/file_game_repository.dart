@@ -32,7 +32,16 @@ class FileGameRepository implements GameRepository {
     if (levels == null) return null;
     final entry = levels[id] as Map<String, dynamic>?;
     if (entry == null) return null;
-    return SimpleLevel(entry['id'] as String, name: entry['name'] as String?);
+    return SimpleLevel(
+      id: entry['id'] as String,
+      name: entry['name'] as String?,
+      gridWidth: entry['gridWidth'] as int? ?? 3,
+      gridHeight: entry['gridHeight'] as int? ?? 3,
+      boardData: (entry['boardData'] as List<dynamic>?)?.cast<String>() ?? ['A'],
+      targetWords: (entry['targetWords'] as List<dynamic>?)?.cast<String>() ?? [],
+      timeLimit: entry['timeLimit'] as int? ?? 0,
+      pointsToWin: entry['pointsToWin'] as int? ?? 100,
+    );
   }
 
   @override

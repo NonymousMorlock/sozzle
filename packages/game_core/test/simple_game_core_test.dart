@@ -19,6 +19,27 @@ class _SimpleLevel implements GameLevel {
   @override
   final String id;
   _SimpleLevel(this.id);
+  
+  @override
+  List<String> get boardData => const ['A', 'B', 'C'];
+
+  @override
+  int get gridHeight => 3;
+
+  @override
+  int get gridWidth => 3;
+
+  @override
+  String? get name => null;
+
+  @override
+  int get pointsToWin => 100;
+
+  @override
+  List<String> get targetWords => const ['CAT'];
+
+  @override
+  int get timeLimit => 0;
 }
 
 void main() {

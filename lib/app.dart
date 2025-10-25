@@ -3,8 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:sozzle/core/routes/routes.dart';
 import 'package:sozzle/l10n/arb/app_localizations.dart';
+import 'package:sozzle/src/level/application/app_game_core.dart';
+import 'package:sozzle/src/level/cubit/word_list_cubit.dart';
 import 'package:sozzle/src/apploader/application/apploader_repository.dart';
 import 'package:sozzle/src/apploader/cubit/apploader_cubit.dart';
 import 'package:sozzle/src/audio/audio_controller.dart';
@@ -28,12 +31,15 @@ class App extends StatelessWidget {
         RepositoryProvider<ILevelRepository>(
           create: (context) => LevelRepository(),
         ),
+        // Provide word list management
+        BlocProvider(
+          create: (context) => WordListCubit(),
+        ),
         // Provide a GameCore implementation for app-wide game state management
         RepositoryProvider<GameCore>(
-          create: (context) => SimpleGameCore(
-            repository: InMemoryRepository({
-              // Optionally seed levels from app's level repository or assets
-            }),
+          create: (context) => AppGameCore(
+            levelRepository: context.read<ILevelRepository>(),
+            wordList: context.read<WordListCubit>().state.words,
           ),
         ),
         RepositoryProvider<IUserStatsRepository>(
